@@ -227,7 +227,6 @@ class UserController extends Controller {
         $chUserAddr = $chUser->getAddress( $validatedData['addr'], forceCreate: true);
         $chUser->roles()->sync( $validatedData['roles'] );
         // @HOOK_USERS_STORE_END
-
         event( 'user.submited', [$chUser, $validatedData] );
         return redirect()->route($this->routeNamespace.'.users.edit', $chUser)
             ->with('user_success', trans('admin/users/user.created'));
