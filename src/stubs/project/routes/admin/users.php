@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\UserTwoFactorAuthController;
 use App\Models\User;
 
 //CHECK https://spatie.be/docs/laravel-permission/v5/basic-usage/middleware
@@ -19,6 +20,18 @@ Route::group([
     Route::get('{chUser}', 'edit')->name('show');
     Route::patch('{chUser}', 'update')->name('update')->middleware('can:update,chUser');
     Route::delete('{chUser}', 'destroy')->name('destroy')->middleware('can:delete,chUser');
+
+    //TWO FACTOR AUTH
+    Route::post('/user/two-factor-authentication/{chUser}', [UserTwoFactorAuthController::class, 'store'])
+        ->middleware('can:update,chUser')
+        ->name('two-factor.enable');
+    Route::delete('/user/two-factor-authentication/{chUser}', [UserTwoFactorAuthController::class, 'destroy'])
+        ->middleware('can:update,chUser')
+        ->name('two-factor.disable');
+    Route::post('/user/two-factor-recovery-codes/{chUser}', [UserTwoFactorAuthController::class, 'recoveryCodes'])
+        ->middleware('can:update,chUser')
+        ->name('two-factor.recovery-codes');
+    //END TWO FACTOR AUTH
 
     // @HOOK_USERS_ROUTES
 });

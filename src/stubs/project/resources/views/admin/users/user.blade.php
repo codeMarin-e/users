@@ -45,6 +45,30 @@
 @endif
 @endpushonce
 
+@isset($chUser)
+    @pushonceOnReady('below_js_on_ready')
+    <script>
+        $('#users2fa').on('hide.bs.collapse', function () {
+            $('#users2faBtn').removeClass('btn-warning');
+            $('#users2faBtn').addClass('btn-primary');
+        });
+        $('#users2fa').on('show.bs.collapse	', function () {
+            $('.js_usersAddonForm.btn-warning').first().click();
+            $('#users2faBtn').removeClass('btn-primary');
+            $('#users2faBtn').addClass('btn-warning');
+        });
+    </script>
+    @endpushonceOnReady
+    @if (session('status') && in_array(session('status'), ['two-factor-authentication-enabled', 'recovery-codes-generated', 'two-factor-authentication-disabled']))
+        @pushonceOnReady('below_js_on_ready')
+        <script>
+            $("#users2faBtn").click();
+        </script>
+        @endpushonceOnReady
+    @endif
+@endisset
+
+
 {{-- @HOOK_USER_SCRIPTS --}}
 
 <x-admin.main>
@@ -338,6 +362,18 @@
                     </div>
 
                     <div class="form-group row">
+                        @isset($chUser)
+                            <button class="btn btn-primary mr-2 js_usersAddonForm"
+                                    data-toggle="collapse"
+                                    id="users2faBtn"
+                                    data-target="#users2fa"
+                                    type="button"
+                                    role="button"
+                                    aria-expanded="false"
+                                    aria-controls="users2fa">@lang('admin/users/user.two-factor.button')
+                                @if($chUser->two_factor_secret) [@lang('admin/users/user.two-factor.button_on')]@else [@lang('admin/users/user.two-factor.button_off')] @endif</button>
+                        @endisset
+
                         {{-- @HOOK_USER_ADDON_BUTTONS --}}
                     </div>
 
@@ -345,6 +381,92 @@
 
             </div>
         </div>
+        @isset($chUser)
+            <div class="card card-body collapse mt-2" id="users2fa">
+                <div>
+                    @csrf
+                    @if (session('status') == 'two-factor-authentication-enabled')
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="alert alert-success alert-dismissable">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>@lang('admin/users/user.two-factor.enabled')</strong>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if (session('status') == 'recovery-codes-generated')
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="alert alert-success alert-dismissable">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>@lang('admin/users/user.two-factor.regenerated')</strong>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if (session('status') == 'two-factor-authentication-disabled')
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="alert alert-danger alert-dismissable">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>@lang('admin/users/user.two-factor.disabled')</strong>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if($chUser->two_factor_secret)
+                        {{--    RAW SWG    --}}
+                        <div class="row">
+                            <div class="col-lg-3">
+                                {!! $chUser->twoFactorQrCodeSvg() !!}
+                            </div>
+                            <div class="col-lg-9">
+                                @foreach((array) $chUser->recoveryCodes() as $recoveryCode)
+                                    <div>{{$recoveryCode}}</div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <br />
+                        <form action="{{route('admin.users.two-factor.recovery-codes', [$chUser])}}" method="POST"  autocomplete="off">
+                            @csrf
+                            <div class="form-group row">
+                                <button type="submit"
+                                        class='btn btn-warning mr-2'
+                                        type='submit'
+                                        onclick="if(!confirm('@lang('two-factor.sure_ask')')) return false;"
+                                >@lang('admin/users/user.two-factor.regenerate')</button>
+                            </div>
+                        </form>
+
+                        <br />
+
+                        <form action="{{route('admin.users.two-factor.disable', [$chUser])}}" method="POST" autocomplete="off">
+                            @csrf
+                            @method("DELETE")
+
+                            <div class="form-group row">
+                                <button type="submit"
+                                        class='btn btn-danger mr-2'
+                                        onclick="if(!confirm('@lang('two-factor.sure_ask')')) return false;"
+                                >@lang('admin/users/user.two-factor.disable')</button>
+                            </div>
+                        </form>
+                    @else
+                        <form action="{{route('admin.users.two-factor.enable', [$chUser])}}" method="POST" autocomplete="off">
+                            @csrf
+                            <div class="form-group row">
+                                <button type="submit"
+                                        class='btn btn-success mr-2'
+                                        onclick="if(!confirm('@lang('two-factor.sure_ask')')) return false;"
+                                >@lang('admin/users/user.two-factor.enable')</button>
+                            </div>
+                        </form>
+                    @endif
+
+                </div>
+            </div>
+        @endisset
         {{-- @HOOK_USER_ADDONS --}}
     </div>
 </x-admin.main>
