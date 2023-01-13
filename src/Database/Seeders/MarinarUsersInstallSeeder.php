@@ -14,9 +14,13 @@
             $this->getRefComponents();
             $this->stubFiles();
             $this->seedMe();
+
+            $this->call([
+                \Marinar\Users\Database\Seeders\MarinarUsersCleanInjectsSeeder::class,
+                \Marinar\Users\Database\Seeders\MarinarUsersInjectsSeeder::class,
+            ]);
             $this->refComponents->info("Done!");
         }
-
 
         private function stubFiles() {
             if(!realpath(base_path().DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'marinar_users.php')) {

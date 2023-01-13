@@ -12,6 +12,7 @@
             $this->getRefComponents();
             $this->clearDB();
             $this->call([
+                \Marinar\Users\Database\Seeders\MarinarUsersCleanInjectsSeeder::class,
                 \Marinar\Users\Database\Seeders\MarinarUsersCleanStubsSeeder::class,
             ]);
 
