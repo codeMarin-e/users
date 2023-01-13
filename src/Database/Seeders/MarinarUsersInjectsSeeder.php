@@ -1,5 +1,5 @@
 <?php
-    namespace Marinar\UsersToken\Database\Seeders;
+    namespace Marinar\Users\Database\Seeders;
 
     use App\Models\Package;
     use Illuminate\Database\Seeder;
