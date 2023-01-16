@@ -1,15 +1,13 @@
 <?php
     namespace Marinar\Users\Database\Seeders;
 
-    use App\Models\Package;
     use Illuminate\Database\Seeder;
-    use Marinar\UsersToken\MarinarUsersToken;
-    use Symfony\Component\Process\Exception\ProcessFailedException;
-    use Symfony\Component\Process\Process;
 
     class MarinarUsersInjectsSeeder extends Seeder {
 
         use \Marinar\Marinar\Traits\MarinarSeedersTrait;
+
+        public static $alreadyInjectedInLine = [];
 
         public function run() {
             $this->getRefComponents();
