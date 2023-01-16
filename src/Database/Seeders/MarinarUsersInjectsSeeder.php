@@ -24,7 +24,7 @@
                 if(!realpath($filePath)) return false;
 
                 if(!file_put_contents($filePath, $this->putBeforeInContent(
-                    $filePath, "{{--  @HOOK_ADMIN_SIDEBAR  --}}", "\t<x-admin.sidebar.users_option />"
+                    $filePath, "{{--  @HOOK_ADMIN_SIDEBAR  --}}", "\t<x-admin.sidebar.users_option />\n"
                 ))) return false;
                 return true;
             });
