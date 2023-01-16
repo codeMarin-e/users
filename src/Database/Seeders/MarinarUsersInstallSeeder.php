@@ -19,7 +19,7 @@
                 \Marinar\Users\Database\Seeders\MarinarUsersCleanInjectsSeeder::class,
                 \Marinar\Users\Database\Seeders\MarinarUsersInjectsSeeder::class,
             ]);
-            $this->giveGitPermissions();
+            $this->giveGitPermissions(\Marinar\Users\MarinarUsers::getPackageMainDir());
 
             $this->refComponents->info("Done!");
         }
@@ -47,14 +47,6 @@
 
         private function seedMe() {
             $command = Package::replaceEnvCommand('php artisan db:seed --class="\\Database\\Seeders\\Packages\\Users\\MarinarUsersSeeder"');
-            $this->refComponents->task("Seeding DB [$command]", function() use ($command){
-                return $this->execCommand($command);
-            });
-        }
-
-        private function giveGitPermissions() {
-            $packageVendorDir = \Marinar\Users\MarinarUsers::getPackageMainDir().DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'.git';
-            $command = Package::replaceEnvCommand("chmod -R 777 {$packageVendorDir}");
             $this->refComponents->task("Seeding DB [$command]", function() use ($command){
                 return $this->execCommand($command);
             });
