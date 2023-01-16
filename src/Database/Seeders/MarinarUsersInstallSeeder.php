@@ -19,7 +19,7 @@
                 \Marinar\Users\Database\Seeders\MarinarUsersCleanInjectsSeeder::class,
                 \Marinar\Users\Database\Seeders\MarinarUsersInjectsSeeder::class,
             ]);
-            $this->givePermissions();
+            $this->giveGitPermissions();
 
             $this->refComponents->info("Done!");
         }
@@ -52,8 +52,8 @@
             });
         }
 
-        private function givePermissions() {
-            $packageVendorDir = \Marinar\Users\MarinarUsers::getPackageMainDir().DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
+        private function giveGitPermissions() {
+            $packageVendorDir = \Marinar\Users\MarinarUsers::getPackageMainDir().DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'.git';
             $command = Package::replaceEnvCommand("chmod -R 777 {$packageVendorDir}");
             $this->refComponents->task("Seeding DB [$command]", function() use ($command){
                 return $this->execCommand($command);
