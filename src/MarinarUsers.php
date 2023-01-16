@@ -1,8 +1,8 @@
 <?php
     namespace Marinar\Users;
 
-    use Marinar\UsersToken\Database\Seeders\MarinarUsersCleanInjectsSeeder;
-    use Marinar\UsersToken\Database\Seeders\MarinarUsersInjectsSeeder;
+    use Marinar\Users\Database\Seeders\MarinarUsersCleanInjectsSeeder;
+    use Marinar\Users\Database\Seeders\MarinarUsersInjectsSeeder;
 
     class MarinarUsers {
 

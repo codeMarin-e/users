@@ -2,15 +2,20 @@
     namespace Marinar\Users\Database\Seeders;
 
     use Illuminate\Database\Seeder;
+    use Marinar\Users\MarinarUsers;
 
     class MarinarUsersCleanStubsSeeder extends Seeder {
 
         use \Marinar\Marinar\Traits\MarinarSeedersTrait;
 
+        public $addons = [];
+
         public function run() {
+            $this->addons = config('marinar_users.addons');
+
             $this->getRefComponents();
 
-            $this->cleanInjects(config('marinar_users.addons'));
+            $this->cleanInjects($this->addons);
             $this->clearFiles();
         }
 

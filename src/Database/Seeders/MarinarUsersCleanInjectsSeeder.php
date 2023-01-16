@@ -2,14 +2,17 @@
     namespace Marinar\Users\Database\Seeders;
 
     use Illuminate\Database\Seeder;
+    use Marinar\Users\MarinarUsers;
 
     class MarinarUsersCleanInjectsSeeder extends Seeder {
 
         use \Marinar\Marinar\Traits\MarinarSeedersTrait;
 
-        public $injectClass = MarinarUsersInjectsSeeder::class;
+        public $injectClass = '';
 
         public function run() {
+            $this->injectClass = MarinarUsers::injects();
+
             $this->getRefComponents();
 
             $this->clearAddonInjects();
