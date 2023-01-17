@@ -59,13 +59,16 @@ class UserRequest extends FormRequest
             ],
             'password' => [ 'sometimes', Rule::requiredIf(!$chUser), 'nullable', 'confirmed', 'min:8', 'max:255' ],
             'active' => 'boolean',
+
             // @HOOK_USER_REQUEST_RULES
         ];
     }
 
     public function messages() {
         $return = Arr::dot((array)trans('admin/users/validation'));
+
         // @HOOK_USER_REQUEST_MESSAGES
+
         return $return;
     }
 
@@ -77,7 +80,9 @@ class UserRequest extends FormRequest
             throw new ValidationException(trans('admin/users/validation.no_inputs') );
         }
         $inputs[$inputBag]['active'] = isset($inputs[$inputBag]['active']);
+
         // @HOOK_USER_REQUEST_PREPARE
+
         $this->replace($inputs);
         request()->replace($inputs); //global request should be replaced, too
         return $inputs[$inputBag];
@@ -91,13 +96,17 @@ class UserRequest extends FormRequest
             else $validatedData['password'] = User::cryptPassword( $validatedData['password'] );
             $validatedData['name'] = $validatedData['addr']['fname'];
             $validatedData['email'] =  $validatedData['addr']['email'];
+
+            // @HOOK_USER_REQUEST_AFTER_VALIDATED
+
             return $validatedData;
         }
         if($key === 'password') {
-            if(is_null($validatedData)) return null;
             return is_null($validatedData)? null : User::cryptPassword($validatedData);
         }
-        // @HOOK_USER_REQUEST_AFTER_VALIDATED
+
+        // @HOOK_USER_REQUEST_AFTER_VALIDATED_KEY
+
         return $validatedData;
     }
 }

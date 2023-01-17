@@ -88,17 +88,7 @@
                     @csrf
                     @isset($chUser)@method('PATCH')@endisset
 
-                    @if(session('user_success'))
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="alert alert-success alert-dismissable">
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                    <strong>{{session('user_success')}}</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.row -->
-                    @endif
+                    <x-admin.box_messages />
 
                     @foreach($errors->$inputBag->all() as $error)
                         <div class="row">
@@ -111,7 +101,7 @@
                         </div>
                     @endforeach
 
-                    {{-- @HOOK_USER_BEGGING --}}
+                    {{-- @HOOK_USER_BEGINNING --}}
 
                     <div class="form-group row">
                         <div class="col-lg-4">
@@ -350,7 +340,7 @@
                                         name='delete'>@lang('admin/users/user.delete')</button>
                             @endcan
                         @else
-                            @can('create', App\User::class)
+                            @can('create', App\Models\User::class)
                                 <button class='btn btn-success mr-2'
                                         type='submit'
                                         name='create'>@lang('admin/users/user.create')</button>

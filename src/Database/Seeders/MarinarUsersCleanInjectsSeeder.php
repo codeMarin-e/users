@@ -28,7 +28,7 @@
                 return true;
             });
 
-            $this->refComponents->task("Clear addon inject - marinar_users.php", function(){
+            $this->refComponents->task("Clear addon inject - marinar.php", function(){
                 $filePath = implode(DIRECTORY_SEPARATOR, [ base_path(), 'config','marinar.php']);
                 if(!realpath($filePath)) return false;
                 if(!file_put_contents($filePath,  $this->removeFromContent($filePath, ["\\Marinar\\Users\\MarinarUsers::class,"])))

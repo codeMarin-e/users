@@ -229,7 +229,7 @@ class UserController extends Controller {
         // @HOOK_USERS_STORE_END
         event( 'user.submited', [$chUser, $validatedData] );
         return redirect()->route($this->routeNamespace.'.users.edit', $chUser)
-            ->with('user_success', trans('admin/users/user.created'));
+            ->with('message_success', trans('admin/users/user.created'));
     }
 
     public function update(User $chUser, UserRequest $request) {
@@ -244,9 +244,9 @@ class UserController extends Controller {
         event( 'user.submited', [$chUser, $validatedData] );
         if($request->has('action')) {
             return redirect()->route($this->routeNamespace.'.users.index')
-                ->with('user_success', trans('admin/users/user.updated'));
+                ->with('message_success', trans('admin/users/user.updated'));
         }
-        return back()->with('user_success', trans('admin/users/user.updated'));
+        return back()->with('message_success', trans('admin/users/user.updated'));
     }
 
     public function destroy(User $chUser) {
@@ -254,6 +254,6 @@ class UserController extends Controller {
         $chUser->delete();
         // @HOOK_USERS_DESTROY_END
         return redirect()->route($this->routeNamespace.'.users.index')
-            ->with('user_danger', trans('admin/users/user.deleted'));
+            ->with('message_danger', trans('admin/users/user.deleted'));
     }
 }

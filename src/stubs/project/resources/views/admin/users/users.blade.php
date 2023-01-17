@@ -24,11 +24,13 @@
 
         <div class="row">
             <div class="col-12">
-                <a href="{{ route("{$route_namespace}.users.create") }}"
-                   class="btn btn-sm btn-primary h5"
-                   title="create">
-                    <i class="fa fa-plus mr-1"></i>@lang('admin/users/users.create')
-                </a>
+                @can('create', App\Models\User::class)
+                    <a href="{{ route("{$route_namespace}.users.create") }}"
+                       class="btn btn-sm btn-primary h5"
+                       title="create">
+                        <i class="fa fa-plus mr-1"></i>@lang('admin/users/users.create')
+                    </a>
+                @endcan
 
                 <a href="{{route("{$route_namespace}.users.index_xlsx")}}"
                    class="btn btn-sm btn-success h5">@lang('admin/users/users.xlsx')</a>
@@ -111,27 +113,7 @@
 
         </form>
 
-        @if(session('user_success'))
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="alert alert-success alert-dismissable">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <strong>{{session('user_success')}}</strong>
-                    </div>
-                </div>
-            </div>
-        @endif
-
-        @if(session('user_danger'))
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="alert alert-danger alert-dismissable">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                        <strong>{{session('user_danger')}}</strong>
-                    </div>
-                </div>
-            </div>
-        @endif
+        <x-admin.box_messages />
 
         <div class="table-responsive rounded ">
             <table class="table table-sm">
@@ -195,7 +177,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4">@lang('admin/users/users.no_users')</td>
+                        <td colspan="100%">@lang('admin/users/users.no_users')</td>
                     </tr>
                 @endforelse
                 </tbody>
