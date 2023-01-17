@@ -15,7 +15,7 @@
 
             $this->getRefComponents();
 
-            $this->cleanInjects($this->addons);
+            $this->cleanInjects(static::$addons);
             $this->clearFiles();
         }
 
