@@ -2,6 +2,7 @@
     namespace Marinar\Users\Database\Seeders;
 
     use Illuminate\Database\Seeder;
+    use Marinar\Users\MarinarUsers;
     use Spatie\Permission\Models\Permission;
 
     class MarinarUsersRemoveSeeder extends Seeder {
@@ -9,12 +10,11 @@
         use \Marinar\Marinar\Traits\MarinarSeedersTrait;
 
         public function run() {
-            $this->getRefComponents();
-            $this->clearDB();
-            $this->call([
-                \Marinar\Users\Database\Seeders\MarinarUsersCleanInjectsSeeder::class,
-                \Marinar\Users\Database\Seeders\MarinarUsersCleanStubsSeeder::class,
-            ]);
+            if(!in_array(env('APP_ENV'), ['dev', 'local'])) return;
+            static::$packageName = 'marinar_users';
+            static::$packageDir = MarinarUsers::getPackageMainDir();
+
+            $this->autoRemove();
 
             $this->refComponents->info("Done!");
         }

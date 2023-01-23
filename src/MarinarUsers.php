@@ -1,8 +1,7 @@
 <?php
     namespace Marinar\Users;
 
-    use Marinar\Users\Database\Seeders\MarinarUsersCleanInjectsSeeder;
-    use Marinar\Users\Database\Seeders\MarinarUsersInjectsSeeder;
+    use Marinar\Users\Database\Seeders\MarinarUsersInstallSeeder;
 
     class MarinarUsers {
 
@@ -10,11 +9,7 @@
             return __DIR__;
         }
 
-        public static function cleanInjects() {
-            return MarinarUsersCleanInjectsSeeder::class;
-        }
-
         public static function injects() {
-            return MarinarUsersInjectsSeeder::class;
+            return MarinarUsersInstallSeeder::class;
         }
     }
