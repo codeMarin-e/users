@@ -88,6 +88,8 @@
                     @csrf
                     @isset($chUser)@method('PATCH')@endisset
 
+                    <h1>Just for the test</h1>
+
                     <x-admin.box_messages />
 
                     @foreach($errors->$inputBag->all() as $error)
