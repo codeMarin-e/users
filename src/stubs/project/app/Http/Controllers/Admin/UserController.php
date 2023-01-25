@@ -27,6 +27,8 @@ class UserController extends Controller {
             $view->with($viewData);
         });
         // @HOOK_USERS_CONSTRUCT
+
+        //just for the test
     }
 
     private function getRoles() {
