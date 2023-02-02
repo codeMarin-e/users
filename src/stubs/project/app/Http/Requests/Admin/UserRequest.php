@@ -11,6 +11,7 @@ use Spatie\Permission\Models\Role;
 
 class UserRequest extends FormRequest
 {
+    private $mergeReturn = [];
 
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +30,7 @@ class UserRequest extends FormRequest
     public function rules()
     {
         $chUser = request()->route('chUser');
-        return [
+        $rules = [
             'addr.fname' => ['nullable', 'max:255'],
             'addr.lname' => ['nullable', 'max:255'],
             'addr.email' => ['required', 'email', Rule::unique('users', 'email')->where(function($qry) use ($chUser){
@@ -59,9 +60,11 @@ class UserRequest extends FormRequest
             ],
             'password' => [ 'sometimes', Rule::requiredIf(!$chUser), 'nullable', 'confirmed', 'min:8', 'max:255' ],
             'active' => 'boolean',
-
-            // @HOOK_USER_REQUEST_RULES
         ];
+
+        // @HOOK_USER_REQUEST_RULES
+
+        return $rules;
     }
 
     public function messages() {
@@ -99,7 +102,7 @@ class UserRequest extends FormRequest
 
             // @HOOK_USER_REQUEST_AFTER_VALIDATED
 
-            return $validatedData;
+            return array_merge($validatedData, $this->mergeReturn);
         }
         if($key === 'password') {
             return is_null($validatedData)? null : User::cryptPassword($validatedData);
