@@ -166,6 +166,12 @@
                                       method="POST"
                                       id="delete[{{$user->id}}]">
                                     @csrf
+                                    @php
+                                        $redirectTo = (!$users->onFirstPage() && $users->count() == 1)?
+                                                $users->previousPageUrl() :
+                                                url()->full();
+                                    @endphp
+                                    <input type="hidden" name="redirect_to" value="{{$redirectTo}}" />
                                     @method('DELETE')
                                     <button class="btn btn-link text-danger"
                                             title="@lang('admin/users/users.remove')"

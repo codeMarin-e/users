@@ -1,5 +1,13 @@
 <?php
 return [
+
+    /**
+     * Behavior when package is installed or update
+     * true - normal
+     * false - do not do anything
+     */
+    'install_behavior' => env('MARINAR_USERS_INSTALL_BEHAVIOR', env('MARINAR_INSTALL_BEHAVIOR', true)),
+
     /**
      * Behavior when package is removed from composer
      * true - delete all
@@ -7,7 +15,7 @@ return [
      * 1 - delete all, but keep the stub files and injection
      * 2 - keep everything
      */
-    'delete_behavior' => false,
+    'delete_behavior' => env('MARINAR_USERS_DELETE_BEHAVIOR', env('MARINAR_DELETE_BEHAVIOR', false)),
 
     /**
      * File stubs that return arrays that are configurable,

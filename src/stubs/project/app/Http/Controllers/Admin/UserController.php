@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
 
 
 class UserController extends Controller {
@@ -249,10 +250,14 @@ class UserController extends Controller {
         return back()->with('message_success', trans('admin/users/user.updated'));
     }
 
-    public function destroy(User $chUser) {
+    public function destroy(User $chUser, Request $request) {
         // @HOOK_USERS_DESTROY
         $chUser->delete();
         // @HOOK_USERS_DESTROY_END
+        if($request->redirect_to)
+            return redirect()->to($request->redirect_to)
+                ->with('message_danger', trans('admin/users/user.deleted'));
+
         return redirect()->route($this->routeNamespace.'.users.index')
             ->with('message_danger', trans('admin/users/user.deleted'));
     }
