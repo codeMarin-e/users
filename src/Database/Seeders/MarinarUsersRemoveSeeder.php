@@ -22,7 +22,7 @@
             $this->refComponents->info("Done!");
         }
 
-        public function clearDB() {
+        public function clearMe() {
             $this->refComponents->task("Clear DB", function() {
                 Permission::whereIn('name', [
                     'users.view',
