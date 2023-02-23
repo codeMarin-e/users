@@ -23,11 +23,6 @@
             "module": true,
             "plugin": false,
             "addon_to": false
-        },
-        "laravel": {
-            "aliases": {
-                "MarinarUsers": "Marinar\\Users\\MarinarUsers"
-            }
         }
     }
 }
