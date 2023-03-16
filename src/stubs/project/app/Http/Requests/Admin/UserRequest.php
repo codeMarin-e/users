@@ -80,7 +80,9 @@ class UserRequest extends FormRequest
         $this->errorBag = $inputBag;
         $inputs = $this->all();
         if(!isset($inputs[$inputBag])) {
-            throw new ValidationException(trans('admin/users/validation.no_inputs') );
+            throw ValidationException::withMessages([
+                $inputBag => trans('admin/users/validation.no_inputs'),
+            ])->errorBag($inputBag);;
         }
         $inputs[$inputBag]['active'] = isset($inputs[$inputBag]['active']);
 
